@@ -1,5 +1,6 @@
 install.packages('tidyverse')
 library(tidyverse)
+library(map_data)
 
 mpg #carregamento de dados
 
@@ -370,30 +371,127 @@ ggplot( data = diamonds ) +
     )
   )
 
+ggplot(
+  data = diamonds,
+  mapping = aes(
+    x = cut, fill = clarity
+  )
+) + 
+  geom_bar(
+    alpha = 1/5, position = "identity" #inutil para grafico de barras, pois sobrepõe
+  )
+ggplot(
+  data = diamonds,
+  mapping = aes(
+    x = cut, color = clarity
+  )
+) + 
+  geom_bar(
+    fill = NA, position = "identity" #fill = NA, torna-o completamente transparente
+  )
 
 
+ggplot(
+  data = diamonds
+) + 
+  geom_bar(
+    mapping = aes(
+      x = cut, fill = clarity
+    ), position = "fill" # position fill fica todo preenchido
+    #fill funciona como empilhamento da mesma altura, facilita comparar proporções
+  )
+
+ggplot(
+  data = diamonds
+) + 
+  geom_bar(
+    mapping = aes(
+      x = cut, fill = clarity
+    ), position = "dodge"
+  )
+#dodge coloca objetos sobrepostos diretamente um ao lado do outro, facilita 
+# a comparação de valores individuais
+
+ggplot(
+  data = mpg
+) +
+  geom_point(
+    mapping = aes(
+      x = displ, y = hwy
+    ),
+    position = "jitter"
+  )
+  
+#para evitar sobreposição de pontos no gráficos, podemos utilizar o position = jitter
+#pois ele adiciona uma pequena quantidade de ruídos aleatórios a cada ponto, isso 
+#espalha os pontos, porque não é provável que dois pontos quaisquer receba
+#a mesma quantidade de ruídos aleatório,
+
+ggplot(
+  data = mpg
+) + geom_point(
+  mapping = aes(
+    x = displ, y = hwy
+  ), 
+  position = "stack"
+)
+
+#exer 1 pg 31
+#descreve a sobreposição dos dados, é necessário adicionar o position jitter
+
+ggplot(
+  data = mpg, mapping = aes(
+    x = cty, y = hwy)) +
+  geom_point(
+    position = "jitter")
 
 
+#exer 2
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_jitter(height = 0, width = 0)
+
+#exer 3 
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_count(position = "jitter")
+
+#exer 4
+ggplot(data = mpg, aes(x = drv, y = hwy, colour = class)) +
+  geom_boxplot(position = "identity")
 
 
+#sistemas de coordenadas
 
+#coord_flip() troca os eixos x e y, é bom para rótulos longos
 
+ggplot(
+  data = mpg, mapping = aes(
+    x = class, y = hwy
+  )
+) + 
+  geom_boxplot()
+ggplot(
+  data = mpg, mapping = aes(
+    x = class, y = hwy
+  )
+) + 
+  geom_boxplot() +
+  coord_flip()
 
+nz <- map_data("nz")
+nz
+ggplot(nz, aes(
+  long, lat, group = group
+)) + 
+  geom_polygon(fill = "white", color = "black") +
+  coord_quickmap()
+#coord_quickmap configura a proporção de tela corretamente
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+world <- map_data("world")
+ggplot(world, aes(
+  long, lat, group = group
+)) +
+  geom_polygon(fill = "white", color = "black") +
+  coord_quickmap() + theme_linedraw()
 
 
 
