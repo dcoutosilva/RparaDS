@@ -1,6 +1,6 @@
 install.packages('tidyverse')
 library(tidyverse)
-library(map_data)
+
 
 mpg #carregamento de dados
 
