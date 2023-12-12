@@ -491,7 +491,7 @@ ggplot(world, aes(
   long, lat, group = group
 )) +
   geom_polygon(fill = "white", color = "black") +
-  coord_quickmap() + theme_linedraw()
+  coord_quickmap() + theme_bw()
 
 
 
