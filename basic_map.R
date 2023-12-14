@@ -57,4 +57,4 @@ map_country <- function(country, x_limits = NULL, y_limits = NULL){
 }
 
 ## Test the function with a different country
-#ap_country("Brazil", c(-2, 15), c(47, 55))
+#map_country("Brazil", c(-2, 15), c(47, 55))
