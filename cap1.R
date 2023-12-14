@@ -489,7 +489,7 @@ world <- map_data("world")
 ggplot(world, aes(
   long, lat, group = group
 )) +
-  geom_polygon(fill = "white", color = "black") +
+  geom_polygon(fill = "black", color = "white") +
   coord_quickmap() + theme_bw()
 
 bar <- ggplot(data = diamonds) +
@@ -546,12 +546,49 @@ ggplot(
 ) + 
   geom_boxplot() +
   coord_flip() +
+  labs(y = "Highway MPG",
+       x = "Class",
+       title = "Higway MPG by car class",
+       subtitle = "1999-2008",
+       caption = "Source: http://fueleconomy.gov")
+
+#exer 3 
+#coord_quickmap X coord_map
+#se pegarmos o mapa da NZ.
+nz <- map_data("nz")
+nz
+ggplot(nz, aes(
+  long, lat, group = group
+)) + 
+  geom_polygon(fill = "white", color = "black") +
+  coord_quickmap()
+#quickmap mantém a porporção correta dos mapas.
+
+ggplot(nz, aes(
+  long, lat, group = group
+)) + 
+  geom_polygon(fill = "white", color = "black") +
+  coord_map()
+
+#coord_map utiliza-se mapas de projeção de 3
+#dimensões.. projeção de mercator
+
+#coord_quickmap é a plotagem mais rapida,
+#porem ela ignora a curvatura da terra
+#e ajusta o mapa para lat/long ratio
+
+#exer 4 
+p<- ggplot(
+  data = mpg, mapping = aes(
+    x = cty, y = hwy
+  )
+) + geom_point() + 
+  geom_abline()
+
+p + coord_fixed()
+
+p
   
-
-
-
-
-
 
 
 
