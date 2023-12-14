@@ -492,6 +492,61 @@ ggplot(world, aes(
   geom_polygon(fill = "white", color = "black") +
   coord_quickmap() + theme_bw()
 
+bar <- ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(
+      x = cut, fill = cut
+    ), show.legend = FALSE,
+    width = 1
+  ) +
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+
+bar + coord_flip()
+bar + coord_polar()
+#coord_polar usa coordenadas polares, que revelam uma conexão interessante 
+#entre um gráfico de barras e gráfico de setores.
+bar
+#exer 1 #pg 33
+ggplot(
+  mpg, aes(
+    x = factor(1), fill = drv
+  )
+) +
+  geom_bar()
+
+ggplot(
+  mpg, aes(
+    x = factor(1), fill = drv
+  )
+) +
+  geom_bar(width = 1) + 
+  coord_polar(theta = "y")
+#o argumento theta=y é o angulo de inicio da secção
+
+#sedeixar em branco
+
+
+ggplot(
+  mpg, aes(
+    x = factor(1), fill = drv
+  )
+) +
+  geom_bar(width = 1) + 
+  coord_polar()
+
+#exer2
+#labs adicionda titulos, titulos plots, capitulos
+
+ggplot(
+  data = mpg, 
+  mapping = aes(
+    x = class, y = hwy
+  )
+) + 
+  geom_boxplot() +
+  coord_flip() +
+  
 
 
 
