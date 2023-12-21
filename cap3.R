@@ -109,7 +109,35 @@ df <-  tibble(x = c(5,2,NA))
 arrange(df, x)
 arrange(df, desc(x))
 
+#1 pag 51
 
+#utiliza o arrange para classificar todos os valores flatantes no começo?
+
+arrange(flights, dep_time) %>% tail()
+#função tail retorna as ultimas linhas de um data frame
+
+#2
+#os voos mais atrasados
+
+arrange(flights, desc(dep_delay))
+
+#os voos que sairam mais cedos, mais adiantados no seus horários.
+arrange(flights, dep_delay)
+
+#ao contrário da função tail, temos a head
+#encontras os voos mais rapidos
+view(head(arrange(flights, air_time)))
+#acima são tbm os voos mais curtos...
+
+#porem os mis rapidos
+
+view(head(arrange(flights, desc(distance / air_time))))
+#4
+#quais voos viajam por mais tempo
+
+arrange(flights, desc(air_time))
+#viajaram por menos tempo
+arrange(flights, air_time)
 
 
 
