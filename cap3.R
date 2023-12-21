@@ -82,9 +82,32 @@ sum(is.na(flights$dep_time))
 
 colSums(is.na(flights))
 
+#5 - teório
+
+NA ^ 0
+#1 - NA admitisse como true
+
+NA | TRUE
+
+FALSE & NA
+
+NA * 0
 
 
+########################################################
 
+#arrange()
+#pag 50
+
+arrange(flights, year, month, day)
+
+arrange(flights, desc(arr_delay))
+
+#valores faltantes serão sempre para os últimos
+
+df <-  tibble(x = c(5,2,NA))
+arrange(df, x)
+arrange(df, desc(x))
 
 
 
