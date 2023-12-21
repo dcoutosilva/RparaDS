@@ -66,8 +66,21 @@ filter(flights, dep_time <= 600 | dep_time == 2400) #a unidade de medida da vari
 
 #exer2
 
+#refazendo os exercicios anteriores com between
 
+#d
+filter(flights, between(month, 7, 9))
 
+#3
+filter(flights, is.na(
+  dep_time
+))
+#fazer uma somatória
+sum(is.na(flights$dep_time))
+
+#verificando em outras variaveis
+
+colSums(is.na(flights))
 
 
 
