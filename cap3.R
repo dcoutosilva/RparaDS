@@ -33,4 +33,48 @@ filter(flights, arr_delay >= 120, dep_delay >= 120)
 #B) FORAM PARA HOUSTON IAH OU HOU
 filter(flights, dest %in% c("IAH", "HOU"))
 
-view(flights.carrier)
+#c) operados pela United, American ou Delta
+# Contando o número de voos por companhia aérea
+contagem_por_companhia <- table(flights$carrier)
+
+# Imprimindo a contagem
+print(contagem_por_companhia)
+
+#assumindo que, United seja UA... American seja AA e Delta seja DL
+#Logo.
+
+UA_AA_DL <- filter(flights, carrier %in% c("UA", "AA", "DL"))
+view(UA_AA_DL)
+
+#D) Partiram em julho, agosto e setembro
+
+jul_ago_set <- filter(flights, month %in% c(07,08,09))
+view(jul_ago_set)
+
+#E) chegaram com mais de duas horas de atraso, mas não saíram atrasados
+
+filter(flights, arr_delay > 120, dep_delay <= 0)
+
+#F) atrasaram pelo menos uma hora, porém compensaram mais de 30 minutos durante o trajeto
+
+filter(flights, dep_delay >= 60, dep_delay - arr_delay > 30)
+
+#G) saíram entre meia-noite e as 6 da manhã
+
+filter(flights, dep_time <= 600 | dep_time == 2400) #a unidade de medida da variavel
+#dep_time
+
+#exer2
+
+
+
+
+
+
+
+
+
+
+
+
+
