@@ -139,6 +139,30 @@ arrange(flights, desc(air_time))
 #viajaram por menos tempo
 arrange(flights, air_time)
 
+select(flights, year, month, day)
+
+select(flights, year:day)
+
+select(flights, - (year:day))
+
+flights %>% select(starts_with("dep")) #deve iniciar com a dataframe 
+
+flights %>% select(ends_with(c("delay", "time"))) 
+
+flights %>%
+  select(
+    contains(c(
+      "dep", "time"  
+    ))
+  )
+#os que contém as expressões dep e time
+
+flights %>%
+  select(
+    matches(
+      "(.)\\1" #REGEX, um caracterer que seja repetido
+    )
+  )
 
 
 
