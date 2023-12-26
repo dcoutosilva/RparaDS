@@ -164,5 +164,62 @@ flights %>%
     )
   )
 
+#num_range ("x", 1:3 ) associa a variavel com os numeros. x1, x2, x3
+
+rename(flights, tail_num = tailnum) #rename variável
+
+view(flights)
+
+select(flights, time_hour, air_time, everything())#ordens das tabelas dentro do select
+
+select(flights, 1, 2, 3, 8, 5) #o mesmo funcionamento que o SQL
+
+#exercicio 1 - pg 54
+#faça um brainstorm de maior quantidade possível de maneiras de selecionar 
+#dep_time, dep_delay, arr_time, arr_delay de flights
+
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")
+
+ex1pg54 <- c ("dep_time", "dep_delay", "arr_time", "arr_delay")
+
+flights %>% select(ex1pg54)
+
+select(flights, all_of(ex1pg54))
+
+select(flights, 4, 6, 7, 9)
+
+select(flights, any_of(ex1pg54))
+
+select(
+  flights, starts_with(
+    c(
+      "dep", "arr"
+    )
+  )
+)
+
+select(
+  flights, ends_with(
+    c(
+      "time", "delay"
+    )
+  )
+)#ERRADO ESSE EXEMPLO POIS SELECIONA MAIS VARIÁVEIS
+
+#EXER2 
+
+select(flights, 1, 1) #ele não repete a coluna selecionada
+
+#exer3
+
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+select(flights, one_of(vars))
+#quase mesma função de all_of e only_of
+
+#exer 4
+
+select(flights, contains("TIME"))
 
 
