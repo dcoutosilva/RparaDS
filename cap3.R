@@ -297,6 +297,42 @@ ntile(y)
 
 #exer1 pg58
 
+#por exemplo....
+#horário 15:04 (24-formats)
+
+1504%/% 100
+#15
+
+1504%%100
+#4
+
+#converter o horário em minutos
+
+1504%/%100 * 60 + 1504 %% 100
+#904 - ou seja em minutos
+
+
+flights_time <- mutate(
+  flights, 
+  dep_time_mins = (dep_time %/%100 * 60 + dep_time %%100) %% 1440, # 1440 = 24 hours * 60 minutes
+  sched_dep_time_mins = (sched_dep_time %/% 100 * 60 + sched_dep_time %% 100) %% 1440,
+)
+select(flights_time, dep_time, dep_time_mins, sched_dep_time, sched_dep_time_mins)
+
+#fazendo uma função
+
+time2mins <- function(x)
+{
+  (x%/%100 * 60 + x %% 100) %% 1440
+}
+
+flights_time <- mutate(
+  flights, 
+  dep_time_mins = time2mins(dep_time),
+  sched_dep_time_mins = time2mins(sched_dep_time)
+)
+
+select(flights_time, dep_time, dep_time_mins, sched_dep_time, sched_dep_time_mins)
 
 
 
