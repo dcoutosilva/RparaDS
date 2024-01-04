@@ -334,5 +334,46 @@ flights_time <- mutate(
 
 select(flights_time, dep_time, dep_time_mins, sched_dep_time, sched_dep_time_mins)
 
-#
+#FAZER EXER 2 3 
+
+#EXER 4
+#exemplo de ranking
+
+rankme <- tibble(
+  x = c(10,54,2,3,9,8,45,21,32,65,45,21,32)
+)
+
+rankme <- mutate(
+  rankme, 
+  n_linha = row_number(x),
+  min_rank = min_rank(x),
+  ordem_rank = dense_rank(x)
+)
+
+arrange(rankme, x)
+
+#------------------#
+
+#começando o exercicio
+
+flights_delayed <- 
+  mutate(flights,
+         dep_delay_min_rank = min_rank(desc(dep_delay)),
+         dep_delay_row_number = row_number(desc(dep_delay)),
+         dep_delay_dense_rank = dense_rank(desc(dep_delay))
+         )
+
+
+flights_delayed <- filter(
+  flights_delayed, 
+  !(dep_delay_min_rank > 10 | 
+    dep_delay_row_number > 10 |
+    dep_delay_dense_rank > 10)
+)
+
+flights_delayed <- arrange(flights_delayed, dep_delay_min_rank)
+
+view(select(flights_delayed, month, day, carrier, flight, dep_delay, 
+             dep_delay_min_rank, dep_delay_row_number, dep_delay_dense_rank ),
+      n=Inf)
 
