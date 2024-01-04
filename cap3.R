@@ -377,3 +377,35 @@ view(select(flights_delayed, month, day, carrier, flight, dep_delay,
              dep_delay_min_rank, dep_delay_row_number, dep_delay_dense_rank ),
       n=Inf)
 
+#ler documentação min_rank()
+
+#exer 5 
+
+1:3 + 1:10
+
+#adição de dois vetores.
+#comprimento do objeto maior não é multiplo do comprimento do objeto menor
+
+#seria eu estaria tentando fazer seria
+
+c(1+1,2+2,3+3,1+4,2+5,3+6,1+7,2+8,3+9,1+10)
+
+#resumos agrupados com summarize pg 59
+
+summarize(
+  flights, 
+  delay = mean(
+    dep_delay, na.rm = TRUE
+  )
+)
+
+#similar ao grup_by
+
+by_day <- group_by(flights, year, month, day)
+summarize(by_day,
+          delay = mean(
+            dep_delay, na.rm = TRUE
+            )
+          )
+
+#combinações com pipe
