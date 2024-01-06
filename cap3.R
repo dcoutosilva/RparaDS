@@ -409,3 +409,67 @@ summarize(by_day,
           )
 
 #combinações com pipe
+
+
+#distância e o atraso médio para cada localização
+
+#exemplo
+
+by_dest <-  group_by(flights, dest)
+delay <-  summarize(by_dest,
+                    count = n(),
+                    dist = mean(distance, na.rm = TRUE),
+                    delay = mean(arr_delay, na.rm = TRUE)
+                  )
+                  delay <- filter(delay, count > 20, dest != "HNL")
+                  
+ggplot(
+  data = delay,
+  mapping = aes(
+    x = dist, y = delay
+  )
+) +
+  geom_point(
+    aes(
+      size = count
+    ), alpha = 1/8
+  ) +
+  geom_smooth( se = FALSE )
+
+#3 passos
+#agrupar voos por destino
+#resumir para calcular a distância, o atraso médio e o número de voos
+#filtar para remover os pontos ruidosos
+
+#vamos verificar atraves do pipe %>% (crtl + shift + m)
+
+delays <- flights %>% 
+  group_by(dest) %>% 
+  summarize(
+    count = n(),
+    dist = mean(distance, na.rm = TRUE),
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) %>% 
+  filter(count > 20, dest != "HNL")
+  
+
+#Valores faltantes
+
+#argumento na.rm
+
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarize(mean = mean(dep_delay))
+
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarize(mean = mean(dep_delay, na.rm = TRUE))
+
+#ou tbm, adicionar a variavel para filtar
+
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarize(mean = mean(dep_delay))
