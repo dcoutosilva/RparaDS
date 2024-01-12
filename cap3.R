@@ -473,3 +473,5 @@ not_cancelled <- flights %>%
 not_cancelled %>% 
   group_by(year, month, day) %>% 
   summarize(mean = mean(dep_delay))
+
+
