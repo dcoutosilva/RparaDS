@@ -1,6 +1,12 @@
-install.packages(c("nycflights13", "tidyverse"))
-library(nycflights13)
-library(tidyverse)
+#VERIFICAR SE O PACOTE ESTÁ CARREGADO
+pacotesRequisitados = c("nycflights13", "tidyverse")
+for(p in pacotesRequisitados){
+  if(!require(
+    p, character.only = TRUE
+  ))
+    install.packages(p)
+  library(p,character.only = TRUE)
+}
 
 view(flights)
 
@@ -473,5 +479,19 @@ not_cancelled <- flights %>%
 not_cancelled %>% 
   group_by(year, month, day) %>% 
   summarize(mean = mean(dep_delay))
+
+flight %>% 
+  group_by(year, month, day) %>% 
+  summarize(mean = mean(dep_delay, na.rm = TRUE))
+
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarize(mean = mean(dep_delay))
+
+#counts
+
 
 
