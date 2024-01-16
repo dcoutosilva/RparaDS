@@ -534,4 +534,30 @@ delays %>%
   )) +
   geom_point(alpha = 1/10)
 
+#medidas de localização
+#mean(x)
+
+#median(x)
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarize(
+    #media delay
+    avg_delay1 = mean(arr_delay),
+    #media positiva delay
+    avg_delay2 = mean(arr_delay[arr_delay > 0 ])
+  )
+
+#medidas de dispersão
+#sd(x) IQR(x) mad(x)
+
+# desvio padrão sd, variação interquartil IQR, desvio absoluto mediano mad
+
+#por ue a distância para alguns destinos é mais variavel do que outras?
+
+not_cancelled %>% 
+  group_by(dest) %>% 
+  summarize(distance_sd = sd(distance)) %>% 
+  arrange(desc(distance_sd))
+
 
