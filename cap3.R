@@ -492,6 +492,46 @@ not_cancelled %>%
   summarize(mean = mean(dep_delay))
 
 #counts
+#sempre que for contar, talvez sugira contagem n()
+#ou uma contagem com os valores não faltantes sum(!is.na(x))
 
+#vamos observar os aviões que tem os maiores atrasos médios.
+
+delays <-  not_cancelled %>% 
+  group_by(tailnum) %>% 
+  summarize(
+    delay = mean(arr_delay)
+  )
+ggplot(
+  data = delays,
+  mapping = aes(
+    x = delay
+  )
+) +
+  geom_freqpoly(binwidth = 10)
+
+
+delays <- not_cancelled %>% 
+  group_by(tailnum) %>% 
+  summarize(
+    delay = mean(
+      arr_delay, na.rm = TRUE
+    ),
+    n = n()
+  )
+ggplot(
+  data = delays, 
+  mapping = aes(
+    x = n, y = delay
+  )
+) +
+  geom_point(alpha = 1/10)
+
+delays %>% 
+  filter( n > 25 ) %>% 
+  ggplot(mapping = aes(
+    x = n, y = delay
+  )) +
+  geom_point(alpha = 1/10)
 
 
