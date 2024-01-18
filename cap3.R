@@ -755,4 +755,31 @@ flights %>%
 
 #exercicios 6
 
+#para cada avião, conte o numero de voos antes do primeiro atraso de mais de uma hora.
+
+#exercicio 7
+
+#o que argumento sort para count() faz? quando você pode usá-lo?
+
+#ordenação
+
+flights %>% 
+  count(dest, sort = TRUE)
+
+
+#MUDANÇAS AGRUPADAS E FILTROS
+
+flights_sml %>% 
+  group_by(year, month, day) %>% 
+  filter(rank(desc(arr_delay))< 10)
+
+popular_dest <- flights %>% 
+  group_by(dest) %>% 
+  filter(n() > 365)
+
+
+#fazer os exercicios da pag 75
+
+
+
 
