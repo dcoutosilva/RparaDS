@@ -698,4 +698,61 @@ ggplot(cancelados_atrasados) +
   ))
 
 
-#5
+#5 qual a companhia com os piores atrasos?
+#aeroportos ruins versus companhias ruins?
+
+flights %>% 
+  group_by(carrier) %>% 
+  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>% 
+  arrange(desc(arr_delay))
+
+#calculei a media de atraso de cada companhia aerea.
+#assim, ordenei para os mais atrasos desc.
+
+filter(airlines, carrier == 'F9') 
+#frontier Airlines INC.
+
+
+flights %>%
+  filter(!is.na(arr_delay)) %>% 
+  #remove os valores ausentes
+  group_by(origin, dest, carrier) %>% 
+  #Agrupa voos por origem, destino e transportadora.
+  summarise(
+    arr_delay = sum(arr_delay),
+    flights = n()
+  ) %>%
+  # Calcula o atraso total e o número de voos para cada grupo.
+  group_by(origin, dest) %>%
+  #agrupa os voos em origem e destino
+  mutate(
+    arr_delay_total = sum(arr_delay),
+    flights_total = sum(flights)
+  ) %>%
+  #Calcula o atraso total e o numero total de voos para cada par de origem e destino
+  ungroup() %>%
+  mutate(
+    arr_delay_others = (arr_delay_total - arr_delay) /
+      (flights_total - flights),
+    #calcula o atraso medio de outras companhias para cada par de origem-destino
+    arr_delay_mean = arr_delay / flights,
+    #calcula o atraso medio para cada companhia de cada par origem-destino
+    arr_delay_diff = arr_delay_mean - arr_delay_others
+    #diferencial dos atrasos
+  ) %>%
+  
+  filter(is.finite(arr_delay_diff)) %>%
+  #filtra valores não finitos em arr_delay_diff
+  group_by(carrier) %>%
+  #agrupa os voos pela companhia
+  summarise(arr_delay_diff = mean(arr_delay_diff)) %>%
+  #calcula a diferença média de atraso para cada companhia em seus pares de
+  #origem-destino
+  arrange(desc(arr_delay_diff))
+#ordena os resultados em ordem descrecente 
+
+#https://github.com/AleksandarKirilov/Homeworks
+
+#exercicios 6
+
+
