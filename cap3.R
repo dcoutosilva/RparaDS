@@ -590,3 +590,40 @@ not_cancelled %>%
   group_by(dest) %>% 
   summarize(carriers = n_distinct(carrier)) %>% 
   arrange(desc(carriers))
+
+
+not_cancelled %>%
+  count(dest)
+
+not_cancelled %>% 
+  count(tailnum, wt = distance)
+
+#quantos voos partiram antes das 5h?
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarize(n_early = sum(dep_time < 500))
+
+#qual proporção de voos estão atrasados em mais de uma hora?
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarize(hour_per = mean(arr_delay > 60))
+
+#agrupando por multiplas variaveis
+#cada resumo descola um nivel de agrupamento
+
+daily <- group_by(flights, year, month, day)
+(per_day <- summarize(daily, flights = n()))#por dia
+view(per_day)
+
+(per_month <- summarize(per_day, flights = sum(flights))) #por mes
+
+(per_year <- summarize(per_month, flights = sum(flights))) #por ano 2013
+
+
+
+
+
+
+
