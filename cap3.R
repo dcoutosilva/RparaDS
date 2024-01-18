@@ -560,4 +560,33 @@ not_cancelled %>%
   summarize(distance_sd = sd(distance)) %>% 
   arrange(desc(distance_sd))
 
+#medidas de classificação min(), quantile(x, 0.25), max()
 
+#quando o primeiro e o ultimo voos partiram a cada dia?
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarize(
+    first = min(dep_time),
+    last = max(dep_time)
+  )
+
+
+#first(), nth(x,2), last()
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  mutate(r = min_rank(desc(dep_time))) %>% 
+  filter(r %in% range(r))
+
+#range()A função na linguagem R é usada para obter os 
+#valores mínimo e máximo do vetor transmitidos a ele como argumento.
+
+#contagens
+#n(), que não recebe argumentos e retorna o tamanho do grupo atual.
+#para contar o numeros de valores distintos (unicos), use n_distinct(x)
+
+not_cancelled %>% 
+  group_by(dest) %>% 
+  summarize(carriers = n_distinct(carrier)) %>% 
+  arrange(desc(carriers))
