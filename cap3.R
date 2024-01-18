@@ -621,9 +621,81 @@ view(per_day)
 
 (per_year <- summarize(per_month, flights = sum(flights))) #por ano 2013
 
+#desagrupando
+
+print(daily)
+
+daily %>% 
+  ungroup() %>% 
+  summarize(flights = n())
+
+#exercicios
+#1 - faça o brainstorming de pelo menos cinco maneiras diferentes de avaliar as 
+#caracteristicas do atraso típico de um grupo de voos.
+#um voo está 15 minutos adiantado em 50% do tempo e 15 minutos atrasado em 50% do tempo
+#um voo que esta sempre atrasado em 10 minutos
+#um voo está 30 minutos adiantado em 50% do tempo e 30 minutos atrasado em 50% do tempo
+#em 99% do tempo um voo está no horário. em 1% do tempo, está 2 horas atrasado.
+
+#exercicio 2
+#o mesmo resultado que not_cancelled %>% count(dest ) e not_cancelled %>% 
+count(tailnum, wt=distance)
+
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+  group_by(tailnum) %>% 
+  tally(distance)
+
+# tally é equivalente a um contador....df %>% summarise(n = n()) 
+
+#4 numeros de voos cancelados por dia
+
+#primeiramente filtrar os voos cancelados
+
+cancelados_por_dia <- 
+  flights %>% 
+  mutate( cancelados = (is.na(arr_delay) | is.na(dep_delay))) %>% 
+  group_by(year, month, day) %>% 
+  summarise(
+    soma_cancelados = sum(cancelados),
+    num_flights = n(),
+  )
+
+ggplot(cancelados_por_dia) +
+  geom_point(
+    aes(
+      x = soma_cancelados,
+      y = num_flights
+    )
+  )
+  
+
+#a proporção de voos cancelados está relacionado ao atraso medio?
+
+cancelados_atrasados <- 
+  flights %>% 
+  mutate(cancelados = (is.na(dep_delay) | is.na(arr_delay))) %>% 
+  group_by(year, month, day) %>% 
+  summarise(
+    proporcao_cancelados = mean(cancelados),
+    media_dep_delay = mean(dep_delay, na.rm = TRUE),
+    media_arr_delay = mean(arr_delay, na.rm = TRUE)
+  ) %>% 
+  ungroup()
+
+ggplot(cancelados_atrasados) + 
+  geom_point(aes(
+    x = media_dep_delay,
+    y = proporcao_cancelados
+  ))
+
+ggplot(cancelados_atrasados) +
+  geom_point(aes(
+    x = media_arr_delay,
+    y = proporcao_cancelados
+  ))
 
 
-
-
-
-
+#5
