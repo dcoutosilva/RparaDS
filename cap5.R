@@ -93,3 +93,5 @@ nycflights13::flights %>%
 
 #esse gráfico não é tão ideal pois há muito voos não cancelados para cancelados.
 
+#covariação
+
