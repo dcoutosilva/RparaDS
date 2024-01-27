@@ -95,5 +95,7 @@ nycflights13::flights %>%
 
 #covariação
 
+#geom_
+
 
 
