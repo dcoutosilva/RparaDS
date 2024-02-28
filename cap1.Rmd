@@ -1,0 +1,21 @@
+---
+title: "Cap1"
+Book: R for Data Science
+output: pdf_document
+---
+
+```{r}
+#VERIFICAR SE O PACOTE ESTÁ CARREGADO
+pacotesRequisitados = c("tidyverse")
+for(p in pacotesRequisitados){
+  if(!require(
+    p, character.only = TRUE
+  ))
+    install.packages(p)
+  library(p,character.only = TRUE)
+}
+```
+Carregamento dos Dados.
+```{r}
+mpg
+```
