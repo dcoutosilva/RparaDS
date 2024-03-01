@@ -3,6 +3,13 @@ title: "Cap1"
 Book: R for Data Science
 output: pdf_document
 ---
+```{python}
+print("Estou usando RStudio, com python")
+
+a=3+5
+print(a)
+
+```
 
 
 ```{r}
