@@ -1,5 +1,5 @@
 #VERIFICAR SE O PACOTE ESTÁ CARREGADO
-pacotesRequisitados = c("nycflights13", "tidyverse")
+pacotesRequisitados = c("nycflights13", "tidyverse", "httpgd")
 for(p in pacotesRequisitados){
   if(!require(
     p, character.only = TRUE
@@ -8,7 +8,7 @@ for(p in pacotesRequisitados){
   library(p,character.only = TRUE)
 }
 
-view(flights)
+flights
 
 
 filter(flights, month == 1, day == 1)
@@ -19,14 +19,14 @@ dec25 <- filter(flights, month == 12, day == 25)
 
 nov_dec <- filter(flights, month %in% c(11,12))
 #voos em novembro e dezembro
-#não funciona com pipe month == 11 | month == 12 
+#não funciona com pipe month == 11 | month == 12
 
 #encontrar voos que não estiveram atrasados em mais de duas horas
 #ou 120 minutos (na chegada ou partida)
 
 filter(flights, !(arr_delay > 120 | dep_delay > 120))
 
-#ou 
+#ou
 
 filter(flights, arr_delay <= 120, dep_delay <= 120)
 
@@ -151,14 +151,14 @@ select(flights, year:day)
 
 select(flights, - (year:day))
 
-flights %>% select(starts_with("dep")) #deve iniciar com a dataframe 
+flights %>% select(starts_with("dep")) #deve iniciar com a dataframe
 
-flights %>% select(ends_with(c("delay", "time"))) 
+flights %>% select(ends_with(c("delay", "time")))
 
 flights %>%
   select(
     contains(c(
-      "dep", "time"  
+      "dep", "time"
     ))
   )
 #os que contém as expressões dep e time
@@ -181,7 +181,7 @@ select(flights, time_hour, air_time, everything())#ordens das tabelas dentro do 
 select(flights, 1, 2, 3, 8, 5) #o mesmo funcionamento que o SQL
 
 #exercicio 1 - pg 54
-#faça um brainstorm de maior quantidade possível de maneiras de selecionar 
+#faça um brainstorm de maior quantidade possível de maneiras de selecionar
 #dep_time, dep_delay, arr_time, arr_delay de flights
 
 select(flights, dep_time, dep_delay, arr_time, arr_delay)
@@ -213,7 +213,7 @@ select(
   )
 )#ERRADO ESSE EXEMPLO POIS SELECIONA MAIS VARIÁVEIS
 
-#EXER2 
+#EXER2
 
 select(flights, 1, 1) #ele não repete a coluna selecionada
 
@@ -232,7 +232,7 @@ select(flights, contains("TIME"))
 
 #adicionar novas variaveis com mutate()
 
-flights_sml <- 
+flights_sml <-
   select(
     flights, year:day, ends_with("delay"), distance, air_time
   )
@@ -319,7 +319,7 @@ ntile(y)
 
 
 flights_time <- mutate(
-  flights, 
+  flights,
   dep_time_mins = (dep_time %/%100 * 60 + dep_time %%100) %% 1440, # 1440 = 24 hours * 60 minutes
   sched_dep_time_mins = (sched_dep_time %/% 100 * 60 + sched_dep_time %% 100) %% 1440,
 )
@@ -333,14 +333,14 @@ time2mins <- function(x)
 }
 
 flights_time <- mutate(
-  flights, 
+  flights,
   dep_time_mins = time2mins(dep_time),
   sched_dep_time_mins = time2mins(sched_dep_time)
 )
 
 select(flights_time, dep_time, dep_time_mins, sched_dep_time, sched_dep_time_mins)
 
-#FAZER EXER 2 3 
+#FAZER EXER 2 3
 
 #EXER 4
 #exemplo de ranking
@@ -350,7 +350,7 @@ rankme <- tibble(
 )
 
 rankme <- mutate(
-  rankme, 
+  rankme,
   n_linha = row_number(x),
   min_rank = min_rank(x),
   ordem_rank = dense_rank(x)
@@ -362,7 +362,7 @@ arrange(rankme, x)
 
 #começando o exercicio
 
-flights_delayed <- 
+flights_delayed <-
   mutate(flights,
          dep_delay_min_rank = min_rank(desc(dep_delay)),
          dep_delay_row_number = row_number(desc(dep_delay)),
@@ -371,21 +371,21 @@ flights_delayed <-
 
 
 flights_delayed <- filter(
-  flights_delayed, 
-  !(dep_delay_min_rank > 10 | 
+  flights_delayed,
+  !(dep_delay_min_rank > 10 |
     dep_delay_row_number > 10 |
     dep_delay_dense_rank > 10)
 )
 
 flights_delayed <- arrange(flights_delayed, dep_delay_min_rank)
 
-view(select(flights_delayed, month, day, carrier, flight, dep_delay, 
+view(select(flights_delayed, month, day, carrier, flight, dep_delay,
              dep_delay_min_rank, dep_delay_row_number, dep_delay_dense_rank ),
       n=Inf)
 
 #ler documentação min_rank()
 
-#exer 5 
+#exer 5
 
 1:3 + 1:10
 
@@ -399,7 +399,7 @@ c(1+1,2+2,3+3,1+4,2+5,3+6,1+7,2+8,3+9,1+10)
 #resumos agrupados com summarize pg 59
 
 summarize(
-  flights, 
+  flights,
   delay = mean(
     dep_delay, na.rm = TRUE
   )
@@ -428,7 +428,7 @@ delay <-  summarize(by_dest,
                     delay = mean(arr_delay, na.rm = TRUE)
                   )
                   delay <- filter(delay, count > 20, dest != "HNL")
-                  
+
 ggplot(
   data = delay,
   mapping = aes(
@@ -449,46 +449,46 @@ ggplot(
 
 #vamos verificar atraves do pipe %>% (crtl + shift + m)
 
-delays <- flights %>% 
-  group_by(dest) %>% 
+delays <- flights %>%
+  group_by(dest) %>%
   summarize(
     count = n(),
     dist = mean(distance, na.rm = TRUE),
     delay = mean(arr_delay, na.rm = TRUE)
-  ) %>% 
+  ) %>%
   filter(count > 20, dest != "HNL")
-  
+
 
 #Valores faltantes
 
 #argumento na.rm
 
-flights %>% 
-  group_by(year, month, day) %>% 
+flights %>%
+  group_by(year, month, day) %>%
   summarize(mean = mean(dep_delay))
 
-flights %>% 
-  group_by(year, month, day) %>% 
+flights %>%
+  group_by(year, month, day) %>%
   summarize(mean = mean(dep_delay, na.rm = TRUE))
 
 #ou tbm, adicionar a variavel para filtar
 
-not_cancelled <- flights %>% 
+not_cancelled <- flights %>%
   filter(!is.na(dep_delay), !is.na(arr_delay))
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
   summarize(mean = mean(dep_delay))
 
-flight %>% 
-  group_by(year, month, day) %>% 
+flight %>%
+  group_by(year, month, day) %>%
   summarize(mean = mean(dep_delay, na.rm = TRUE))
 
-not_cancelled <- flights %>% 
+not_cancelled <- flights %>%
   filter(!is.na(dep_delay), !is.na(arr_delay))
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
   summarize(mean = mean(dep_delay))
 
 #counts
@@ -497,8 +497,8 @@ not_cancelled %>%
 
 #vamos observar os aviões que tem os maiores atrasos médios.
 
-delays <-  not_cancelled %>% 
-  group_by(tailnum) %>% 
+delays <-  not_cancelled %>%
+  group_by(tailnum) %>%
   summarize(
     delay = mean(arr_delay)
   )
@@ -511,8 +511,8 @@ ggplot(
   geom_freqpoly(binwidth = 10)
 
 
-delays <- not_cancelled %>% 
-  group_by(tailnum) %>% 
+delays <- not_cancelled %>%
+  group_by(tailnum) %>%
   summarize(
     delay = mean(
       arr_delay, na.rm = TRUE
@@ -520,15 +520,15 @@ delays <- not_cancelled %>%
     n = n()
   )
 ggplot(
-  data = delays, 
+  data = delays,
   mapping = aes(
     x = n, y = delay
   )
 ) +
   geom_point(alpha = 1/10)
 
-delays %>% 
-  filter( n > 25 ) %>% 
+delays %>%
+  filter( n > 25 ) %>%
   ggplot(mapping = aes(
     x = n, y = delay
   )) +
@@ -539,8 +539,8 @@ delays %>%
 
 #median(x)
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
   summarize(
     #media delay
     avg_delay1 = mean(arr_delay),
@@ -555,17 +555,17 @@ not_cancelled %>%
 
 #por ue a distância para alguns destinos é mais variavel do que outras?
 
-not_cancelled %>% 
-  group_by(dest) %>% 
-  summarize(distance_sd = sd(distance)) %>% 
+not_cancelled %>%
+  group_by(dest) %>%
+  summarize(distance_sd = sd(distance)) %>%
   arrange(desc(distance_sd))
 
 #medidas de classificação min(), quantile(x, 0.25), max()
 
 #quando o primeiro e o ultimo voos partiram a cada dia?
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
   summarize(
     first = min(dep_time),
     last = max(dep_time)
@@ -574,40 +574,40 @@ not_cancelled %>%
 
 #first(), nth(x,2), last()
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
-  mutate(r = min_rank(desc(dep_time))) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
+  mutate(r = min_rank(desc(dep_time))) %>%
   filter(r %in% range(r))
 
-#range()A função na linguagem R é usada para obter os 
+#range()A função na linguagem R é usada para obter os
 #valores mínimo e máximo do vetor transmitidos a ele como argumento.
 
 #contagens
 #n(), que não recebe argumentos e retorna o tamanho do grupo atual.
 #para contar o numeros de valores distintos (unicos), use n_distinct(x)
 
-not_cancelled %>% 
-  group_by(dest) %>% 
-  summarize(carriers = n_distinct(carrier)) %>% 
+not_cancelled %>%
+  group_by(dest) %>%
+  summarize(carriers = n_distinct(carrier)) %>%
   arrange(desc(carriers))
 
 
 not_cancelled %>%
   count(dest)
 
-not_cancelled %>% 
+not_cancelled %>%
   count(tailnum, wt = distance)
 
 #quantos voos partiram antes das 5h?
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
   summarize(n_early = sum(dep_time < 500))
 
 #qual proporção de voos estão atrasados em mais de uma hora?
 
-not_cancelled %>% 
-  group_by(year, month, day) %>% 
+not_cancelled %>%
+  group_by(year, month, day) %>%
   summarize(hour_per = mean(arr_delay > 60))
 
 #agrupando por multiplas variaveis
@@ -625,12 +625,12 @@ view(per_day)
 
 print(daily)
 
-daily %>% 
-  ungroup() %>% 
+daily %>%
+  ungroup() %>%
   summarize(flights = n())
 
 #exercicios
-#1 - faça o brainstorming de pelo menos cinco maneiras diferentes de avaliar as 
+#1 - faça o brainstorming de pelo menos cinco maneiras diferentes de avaliar as
 #caracteristicas do atraso típico de um grupo de voos.
 #um voo está 15 minutos adiantado em 50% do tempo e 15 minutos atrasado em 50% do tempo
 #um voo que esta sempre atrasado em 10 minutos
@@ -638,26 +638,26 @@ daily %>%
 #em 99% do tempo um voo está no horário. em 1% do tempo, está 2 horas atrasado.
 
 #exercicio 2
-#o mesmo resultado que not_cancelled %>% count(dest ) e not_cancelled %>% 
+#o mesmo resultado que not_cancelled %>% count(dest ) e not_cancelled %>%
 count(tailnum, wt=distance)
 
-not_cancelled <- flights %>% 
+not_cancelled <- flights %>%
   filter(!is.na(dep_delay), !is.na(arr_delay))
 
-not_cancelled %>% 
-  group_by(tailnum) %>% 
+not_cancelled %>%
+  group_by(tailnum) %>%
   tally(distance)
 
-# tally é equivalente a um contador....df %>% summarise(n = n()) 
+# tally é equivalente a um contador....df %>% summarise(n = n())
 
 #4 numeros de voos cancelados por dia
 
 #primeiramente filtrar os voos cancelados
 
-cancelados_por_dia <- 
-  flights %>% 
-  mutate( cancelados = (is.na(arr_delay) | is.na(dep_delay))) %>% 
-  group_by(year, month, day) %>% 
+cancelados_por_dia <-
+  flights %>%
+  mutate( cancelados = (is.na(arr_delay) | is.na(dep_delay))) %>%
+  group_by(year, month, day) %>%
   summarise(
     soma_cancelados = sum(cancelados),
     num_flights = n(),
@@ -670,22 +670,22 @@ ggplot(cancelados_por_dia) +
       y = num_flights
     )
   )
-  
+
 
 #a proporção de voos cancelados está relacionado ao atraso medio?
 
-cancelados_atrasados <- 
-  flights %>% 
-  mutate(cancelados = (is.na(dep_delay) | is.na(arr_delay))) %>% 
-  group_by(year, month, day) %>% 
+cancelados_atrasados <-
+  flights %>%
+  mutate(cancelados = (is.na(dep_delay) | is.na(arr_delay))) %>%
+  group_by(year, month, day) %>%
   summarise(
     proporcao_cancelados = mean(cancelados),
     media_dep_delay = mean(dep_delay, na.rm = TRUE),
     media_arr_delay = mean(arr_delay, na.rm = TRUE)
-  ) %>% 
+  ) %>%
   ungroup()
 
-ggplot(cancelados_atrasados) + 
+ggplot(cancelados_atrasados) +
   geom_point(aes(
     x = media_dep_delay,
     y = proporcao_cancelados
@@ -701,22 +701,22 @@ ggplot(cancelados_atrasados) +
 #5 qual a companhia com os piores atrasos?
 #aeroportos ruins versus companhias ruins?
 
-flights %>% 
-  group_by(carrier) %>% 
-  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>% 
+flights %>%
+  group_by(carrier) %>%
+  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>%
   arrange(desc(arr_delay))
 
 #calculei a media de atraso de cada companhia aerea.
 #assim, ordenei para os mais atrasos desc.
 
-filter(airlines, carrier == 'F9') 
+filter(airlines, carrier == 'F9')
 #frontier Airlines INC.
 
 
 flights %>%
-  filter(!is.na(arr_delay)) %>% 
+  filter(!is.na(arr_delay)) %>%
   #remove os valores ausentes
-  group_by(origin, dest, carrier) %>% 
+  group_by(origin, dest, carrier) %>%
   #Agrupa voos por origem, destino e transportadora.
   summarise(
     arr_delay = sum(arr_delay),
@@ -740,7 +740,7 @@ flights %>%
     arr_delay_diff = arr_delay_mean - arr_delay_others
     #diferencial dos atrasos
   ) %>%
-  
+
   filter(is.finite(arr_delay_diff)) %>%
   #filtra valores não finitos em arr_delay_diff
   group_by(carrier) %>%
@@ -749,7 +749,7 @@ flights %>%
   #calcula a diferença média de atraso para cada companhia em seus pares de
   #origem-destino
   arrange(desc(arr_delay_diff))
-#ordena os resultados em ordem descrecente 
+#ordena os resultados em ordem descrecente
 
 #https://github.com/AleksandarKirilov/Homeworks
 
@@ -763,18 +763,18 @@ flights %>%
 
 #ordenação
 
-flights %>% 
+flights %>%
   count(dest, sort = TRUE)
 
 
 #MUDANÇAS AGRUPADAS E FILTROS
 
-flights_sml %>% 
-  group_by(year, month, day) %>% 
+flights_sml %>%
+  group_by(year, month, day) %>%
   filter(rank(desc(arr_delay))< 10)
 
-popular_dest <- flights %>% 
-  group_by(dest) %>% 
+popular_dest <- flights %>%
+  group_by(dest) %>%
   filter(n() > 365)
 
 
