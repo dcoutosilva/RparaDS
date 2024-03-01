@@ -573,7 +573,7 @@ ggplot(
   coord_flip()
 
 nz <- map_data("nz")
-nz
+
 ggplot(nz, aes(
   long, lat, group = group
 )) + 
@@ -674,7 +674,7 @@ coord_quickmap X coord_map ---  se pegarmos o mapa da NZ.
 ```{r}
 
 nz <- map_data("nz")
-nz
+
 ggplot(nz, aes(
   long, lat, group = group
 )) + 
