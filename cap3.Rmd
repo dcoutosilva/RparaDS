@@ -58,62 +58,70 @@ por companhia aérea
 contagem_por_companhia <- table(flights$carrier)
 ```
 
-
-```{r}
 Imprimindo a contagem
-
+```{r}
 print(contagem_por_companhia)
+```
 
 assumindo que, United seja UA... American seja AA e Delta seja DL
 Logo.
-
-UA_AA_DL \<- filter(flights, carrier %in% c("UA", "AA", "DL"))
+```{r}
+UA_AA_DL <- filter(flights, carrier %in% c("UA", "AA", "DL"))
 view(UA_AA_DL)
-
+```
 D) Partiram em julho, agosto e setembro
 
-jul_ago_set \<- filter(flights, month %in% c(07,08,09))
+```{r}
+jul_ago_set <- filter(flights, month %in% c(07,08,09))
 view(jul_ago_set)
+```
 
 E) chegaram com mais de duas horas de atraso, mas não saíram atrasados
-
-filter(flights, arr_delay \> 120, dep_delay \<= 0)
+```{r}
+filter(flights, arr_delay > 120, dep_delay <= 0)
+```
 
 F) atrasaram pelo menos uma hora, porém compensaram mais de 30 minutos
 durante o trajeto
 
+```{r}
 filter(flights, dep_delay \>= 60, dep_delay - arr_delay \> 30)
+```
 
 G) saíram entre meia-noite e as 6 da manhã
-
-filter(flights, dep_time \<= 600 \| dep_time == 2400) a unidade de
-medida da variavel dep_time
+```{r}
+filter(flights, dep_time <= 600 \| dep_time == 2400) #a unidade de medida da variavel dep_time
+```
 
 exer2
 
 refazendo os exercicios anteriores com between
+```{r}
+filter(flights, between(month, 7, 9))
 
-d filter(flights, between(month, 7, 9))
-
-3 filter(flights, is.na( dep_time )) fazer uma somatória
-sum(is.na(flights\$dep_time))
+#filter(flights, is.na(dep_time) %>% 
+ #   sum(is.na(flights$dep_time)) )) #fazer uma somatória
+#arrumar
+```
 
 verificando em outras variaveis
 
+```{r}
 colSums(is.na(flights))
 
-5 - teório
+5 - #teório
 
-NA \^ 0 1 - NA admitisse como true
+#NA ^ 0 1 - NA # admitisse como true
 
-NA \| TRUE
+NA | TRUE
 
 FALSE & NA
 
-NA \* 0
+NA * 0
+```
 
- 
 
+```{r}
 arrange() pag 50
 
 arrange(flights, year, month, day)
