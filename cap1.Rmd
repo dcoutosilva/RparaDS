@@ -3,14 +3,6 @@ title: "Cap1"
 Book: R for Data Science
 output: pdf_document
 ---
-```{python}
-print("Estou usando RStudio, com python")
-
-a=3+6
-print(a)
-
-```
-
 
 ```{r}
 #VERIFICAR SE O PACOTE ESTÁ CARREGADO
@@ -196,14 +188,19 @@ facet_grid não tem variaveis nrow e ncol pois são de acordo com variaveis as q
 
 Objetos geométricos pag 16
 
-#left 
+left
+```{r}
 ggplot( data = mpg ) +
   geom_point(
     mapping = aes(
       x = displ, y = hwy
     )
   )
-#right
+```
+
+
+right
+```{r}
 ggplot( data = mpg ) +
   geom_smooth(
     mapping = aes(
@@ -217,11 +214,14 @@ ggplot( data = mpg ) +
       x = displ, y = hwy, linetype = drv
     )
   )
-#4 quer dizer tração nas quatro rodas
-#f tração dianteira
-#r tração traseira
-#pag 18
+```
 
+
+4 quer dizer tração nas quatro rodas
+f tração dianteira
+r tração traseira
+pag 18
+```{r}
 ggplot(data = mpg) +
   geom_smooth(
     mapping = aes(
@@ -241,9 +241,11 @@ ggplot( data = mpg) +
     ),
     show.legend = FALSE
   )
+```
 
-#Para exibir vários geoms no mesmo gráfico 
 
+Para exibir vários geoms no mesmo gráfico 
+```{r}
 ggplot(data = mpg) + 
   geom_point(
     mapping = aes(
@@ -255,9 +257,12 @@ ggplot(data = mpg) +
       x = displ, y = hwy
     )
   )
-#duplicação de código, pois estou plotando os mesmo dados em dois tipos de gráficos diferentes
-#péssimo para manutenção do código.. o mais correto seria.
+```
 
+
+duplicação de código, pois estou plotando os mesmo dados em dois tipos de gráficos diferentes péssimo para manutenção do código.. o mais correto seria.
+
+```{r}
 ggplot(
   data = mpg, mapping = aes(
     x = displ, y = hwy
@@ -265,10 +270,10 @@ ggplot(
 )+
   geom_point() +
   geom_smooth()
+```
 
-#para limpeza do código, é o mais correto..
-#podemos modificar umas das propriedades
-
+para limpeza do código, é o mais correto..podemos modificar umas das propriedades
+```{r}
 ggplot(
   data = mpg, mapping = aes(
     x = displ, y = hwy
@@ -280,9 +285,10 @@ ggplot(
     )
   ) + 
   geom_smooth()
+```
 
-#pag 20 usando filter
-
+pag 20 usando filter
+```{r}
 ggplot(
   data = mpg, mapping = aes(
     x = displ, y = hwy
@@ -298,9 +304,13 @@ ggplot(
       mpg, class == "compact"
     ), se = TRUE
   )
+```
 
-#exer 2
 
+
+exercício 2
+
+```{r}
 ggplot(
   data =  mpg,
   mapping = aes(
@@ -310,8 +320,12 @@ ggplot(
     geom_smooth( 
       se = TRUE
       )
+```
 
-#exer 5 
+
+
+exercício 5 
+```{r}
 
 ggplot(
   data = mpg, mapping = aes(
@@ -319,7 +333,10 @@ ggplot(
   )) +
   geom_point() +
   geom_smooth()
-#--------------------------------------------
+```
+
+--------------------------------------------
+```{r}
 ggplot() +
   geom_point(
     data = mpg, mapping = aes(
@@ -331,27 +348,38 @@ ggplot() +
       x = displ, y = hwy
     )
   )
-#não existe diferença nos dois gráficos.
+```
 
-#transformações estatísticas
-#pag 22
 
-# --------------------------------------------------------------------------------------------#
+não existe diferença nos dois gráficos.
 
+transformações estatísticas
+pag 22
+
+ --------------------------------------------------------------------------------------------
+
+
+```{r}
 diamonds
-
+```
+```{r}
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(
     x = cut
   ))
+```
 
+```{r}
 ggplot(
   data = diamonds
 ) +
   stat_count(mapping = aes(
     x = cut
   ))
+```
 
+
+```{r}
 demo <- tribble(
   ~a, ~b,
   "bar1", 20,
@@ -365,7 +393,8 @@ ggplot(data = demo) +
     ), stat = "identity"
   )
 
-
+```
+```{r}
 ggplot(
   data  = diamonds
 ) +
@@ -375,6 +404,8 @@ ggplot(
     )
   )
 
+```
+```{r}
 ggplot(data = diamonds) +
   stat_summary(
     mapping = aes(
@@ -384,8 +415,12 @@ ggplot(data = diamonds) +
     fun.ymax = max,
     fun.y = median
   )
-#ajustes de posição
-#pg 27
+```
+
+
+ajustes de posição
+pg 27
+```{r}
 ggplot(data = diamonds) +
   geom_bar(
     mapping = aes(
@@ -398,9 +433,12 @@ ggplot(data = diamonds) +
       x = cut, fill = cut
     )
   )
+```
 
-#não consigo exibir os dois graficos ao mesmo tempo
 
+
+não consigo exibir os dois graficos ao mesmo tempo
+```{r}
 ggplot( data = diamonds ) +
   geom_bar(
     mapping = aes(
@@ -446,9 +484,11 @@ ggplot(
       x = cut, fill = clarity
     ), position = "dodge"
   )
-#dodge coloca objetos sobrepostos diretamente um ao lado do outro, facilita 
-# a comparação de valores individuais
+```
 
+
+dodge coloca objetos sobrepostos diretamente um ao lado do outro, facilita a comparação de valores individuais
+```{r}
 ggplot(
   data = mpg
 ) +
@@ -458,12 +498,14 @@ ggplot(
     ),
     position = "jitter"
   )
-  
-#para evitar sobreposição de pontos no gráficos, podemos utilizar o position = jitter
-#pois ele adiciona uma pequena quantidade de ruídos aleatórios a cada ponto, isso 
-#espalha os pontos, porque não é provável que dois pontos quaisquer receba
-#a mesma quantidade de ruídos aleatório,
+```
 
+
+  
+para evitar sobreposição de pontos no gráficos, podemos utilizar o position = jitter
+pois ele adiciona uma pequena quantidade de ruídos aleatórios a cada ponto, isso 
+espalha os pontos, porque não é provável que dois pontos quaisquer receba a mesma quantidade de ruídos aleatório,
+```{r}
 ggplot(
   data = mpg
 ) + geom_point(
@@ -472,9 +514,13 @@ ggplot(
   ), 
   position = "stack"
 )
+```
 
-#exer 1 pg 31
-#descreve a sobreposição dos dados, é necessário adicionar o position jitter
+
+
+exer 1 pg 31
+descreve a sobreposição dos dados, é necessário adicionar o position jitter
+```{r}
 
 ggplot(
   data = mpg, mapping = aes(
@@ -483,23 +529,35 @@ ggplot(
     position = "jitter")
 
 
-#exer 2
+```
+
+exer 2
+```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_jitter(height = 0, width = 0)
+```
 
-#exer 3 
+
+exer 3 
+```{r}
+
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_count(position = "jitter")
+```
 
-#exer 4
+exer 4
+```{r}
+
 ggplot(data = mpg, aes(x = drv, y = hwy, colour = class)) +
   geom_boxplot(position = "identity")
+```
 
 
-#sistemas de coordenadas
 
-#coord_flip() troca os eixos x e y, é bom para rótulos longos
+sistemas de coordenadas
 
+coord_flip() troca os eixos x e y, é bom para rótulos longos
+```{r}
 ggplot(
   data = mpg, mapping = aes(
     x = class, y = hwy
@@ -521,15 +579,21 @@ ggplot(nz, aes(
 )) + 
   geom_polygon(fill = "white", color = "black") +
   coord_quickmap()
-#coord_quickmap configura a proporção de tela corretamente
+```
 
+
+coord_quickmap configura a proporção de tela corretamente
+```{r}
 world <- map_data("world")
 ggplot(world, aes(
   long, lat, group = group
 )) +
   geom_polygon(fill = "black", color = "white") +
   coord_quickmap() + theme_bw()
+```
 
+
+```{r}
 bar <- ggplot(data = diamonds) +
   geom_bar(
     mapping = aes(
@@ -542,10 +606,17 @@ bar <- ggplot(data = diamonds) +
 
 bar + coord_flip()
 bar + coord_polar()
-#coord_polar usa coordenadas polares, que revelam uma conexão interessante 
-#entre um gráfico de barras e gráfico de setores.
+```
+
+
+coord_polar usa coordenadas polares, que revelam uma conexão interessante entre um gráfico de barras e gráfico de setores.
+```{r}
 bar
-#exer 1 #pg 33
+```
+
+
+exer 1 pg 33
+```{r}
 ggplot(
   mpg, aes(
     x = factor(1), fill = drv
@@ -560,11 +631,13 @@ ggplot(
 ) +
   geom_bar(width = 1) + 
   coord_polar(theta = "y")
-#o argumento theta=y é o angulo de inicio da secção
-
-#sedeixar em branco
+```
 
 
+o argumento theta=y é o angulo de inicio da secção
+
+se deixar em branco
+```{r}
 ggplot(
   mpg, aes(
     x = factor(1), fill = drv
@@ -572,10 +645,14 @@ ggplot(
 ) +
   geom_bar(width = 1) + 
   coord_polar()
+```
 
-#exer2
-#labs adicionda titulos, titulos plots, capitulos
 
+
+
+exer2
+labs adicionda titulos, titulos plots, capitulos
+```{r}
 ggplot(
   data = mpg, 
   mapping = aes(
@@ -590,9 +667,12 @@ ggplot(
        subtitle = "1999-2008",
        caption = "Source: http://fueleconomy.gov")
 
-#exer 3 
-#coord_quickmap X coord_map
-#se pegarmos o mapa da NZ.
+```
+
+exer 3 
+coord_quickmap X coord_map ---  se pegarmos o mapa da NZ.
+```{r}
+
 nz <- map_data("nz")
 nz
 ggplot(nz, aes(
@@ -600,22 +680,26 @@ ggplot(nz, aes(
 )) + 
   geom_polygon(fill = "white", color = "black") +
   coord_quickmap()
-#quickmap mantém a porporção correta dos mapas.
+```
 
+quickmap mantém a porporção correta dos mapas.
+```{r}
 ggplot(nz, aes(
   long, lat, group = group
 )) + 
   geom_polygon(fill = "white", color = "black") +
   coord_map()
+```
 
-#coord_map utiliza-se mapas de projeção de 3
-#dimensões.. projeção de mercator
 
-#coord_quickmap é a plotagem mais rapida,
-#porem ela ignora a curvatura da terra
-#e ajusta o mapa para lat/long ratio
 
-#exer 4 
+coord_map utiliza-se mapas de projeção de 3 dimensões.. projeção de mercator
+
+coord_quickmap é a plotagem mais rapida, porem ela ignora a curvatura da terra
+e ajusta o mapa para lat/long ratio
+
+exer 4 
+```{r}
 p<- ggplot(
   data = mpg, mapping = aes(
     x = cty, y = hwy
@@ -624,4 +708,7 @@ p<- ggplot(
   geom_abline()
 
 p + coord_fixed()
+```
+
+
 
