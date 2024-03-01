@@ -6,7 +6,7 @@ output: pdf_document
 ```{python}
 print("Estou usando RStudio, com python")
 
-a=3+5
+a=3+6
 print(a)
 
 ```
