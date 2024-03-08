@@ -2,6 +2,7 @@ install.packages('tidyverse')
 library(tidyverse)
 
 mpg #carregamento de dados
+view(mpg)
 
 #criando um ggplot
 
