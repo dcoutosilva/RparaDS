@@ -184,6 +184,39 @@ nycflights13::flights %>%
     )
   )
 
+#exer 2 pag 99
+
+ggplot(
+  diamonds,
+  aes(
+    x = carat, y = price
+  )
+) +
+  geom_point()
+
+#como são muitos pontos nos dados,
+#utilizaremos boxplot
+#eixos x e y nas suas respectivas variaveis
+#A função cut_width(carat, 0.1) cria esses intervalos, 
+#o que permite criar boxplots para cada intervalo de carat.
+
+ggplot(
+  data = diamonds,
+  mapping = aes(
+    x = carat, y = price
+  )
+) +
+  geom_boxplot(
+    mapping = aes(
+      group = cut_width(
+        carat, 0.1
+      )
+    ),
+    orientation = "x"
+  )
+  
+
+
 
 
 
