@@ -1,5 +1,5 @@
 #Verifica Pacotes
-pack = c("tidyverse", "ggstance")
+pack = c("tidyverse", "ggstance", "lvplot")
 for(p in pack){
   if(!require(
     p, character.only = TRUE
@@ -260,6 +260,39 @@ ggplot(
       )
     ) +
   coord_flip()
+
+#agora com a library ggstance instalada
+
+ggplot(
+  data = mpg
+) +
+  geom_boxploth(
+    mapping = aes(
+      y = reorder(
+        class, hwy, FUN = median
+      ), x = hwy 
+    )
+  )
   
+#ATENÇÃO, a diferença de se utilizar a ggstance em relação aos outros gráficos?
+#as versões atuais do ggplot2 não requer coord_flip()
+#todos os geoms podem escolher a direção 
+
+#exer 4
+
+#letter value plot
+#instalar o lvplot e utilizar geom_lv
+#preços X corte
+
+
+ggplot(
+  diamonds, 
+  aes(
+    x = cut, y = price
+  )
+) +
+  geom_lv()
+
+#cada caixa é um percentil, como saber o valor dela?
 
 
