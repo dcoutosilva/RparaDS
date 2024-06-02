@@ -1,5 +1,5 @@
 #Verifica Pacotes
-pack = c("tidyverse")
+pack = c("tidyverse", "ggstance")
 for(p in pack){
   if(!require(
     p, character.only = TRUE
@@ -216,7 +216,50 @@ ggplot(
   )
   
 
+#A função fct_rev reverte a ordem dos níveis de um fator.
+#D melhor, j pior
+diamonds %>% 
+  mutate(
+    color = fct_rev(color)
+  ) %>% 
+  ggplot(
+    aes(
+      x = color, y = price
+    )
+  ) +
+  geom_boxplot()
+
+#veremos uma relação negativa fraca entre a clarity e price
+
+#i1(pior) e IF(melhor)
+
+ggplot(
+  data = diamonds
+) +
+  geom_boxplot(
+    mapping = aes(
+      x = clarity, y = price
+    )
+  )
+
+#carat é muito melhor para estabelecer o preço dos diamantes
 
 
+#exer 3 pag 99
+
+#instalar o pacote ggstance e crie um boxplot horinzontal.
+#como isso se compara a usar coord_flip
+
+ggplot(
+  data = mpg
+) +
+  geom_boxplot(
+    mapping = aes(
+      x = reorder(
+        class, hwy, FUN = median), y = hwy
+      )
+    ) +
+  coord_flip()
+  
 
 
