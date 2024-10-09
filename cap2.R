@@ -1,3 +1,16 @@
+# Verificar se os pacotes estão carregados e instalados, se necessário
+pacotesRequisitados <- c("tidyverse", 
+                        )
+
+for (p in pacotesRequisitados) {
+  if (!require(p, character.only = TRUE)) {
+    install.packages(p)
+  }
+  library(p, character.only = TRUE)
+}
+
+
+
 #basic programming
 
 1/200*30
@@ -14,7 +27,6 @@ esteÉUmNomeMuitoLongo <- 2.5
 r_rocks <- 2^3
 r_rocks
 
-library(tidyverse)
 
 ggplot(data = mpg) + 
   geom_point(mapping = aes(

@@ -1,5 +1,8 @@
 #Verifica Pacotes
-pack = c("tidyverse", "ggstance", "lvplot")
+pack = c("tidyverse", 
+         "ggstance", 
+         "lvplot")
+
 for(p in pack){
   if(!require(
     p, character.only = TRUE

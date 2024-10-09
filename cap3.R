@@ -1,5 +1,8 @@
 #VERIFICAR SE O PACOTE ESTÁ CARREGADO
-pacotesRequisitados = c("nycflights13", "tidyverse", "httpgd")
+pacotesRequisitados = c("nycflights13", 
+                        "tidyverse", 
+                        "httpgd")
+
 for(p in pacotesRequisitados){
   if(!require(
     p, character.only = TRUE

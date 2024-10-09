@@ -1,5 +1,14 @@
-install.packages('tidyverse')
-library(tidyverse)
+# Verificar se os pacotes estão carregados e instalados, se necessário
+pacotesRequisitados <- c("tidyverse", 
+                        )
+
+for (p in pacotesRequisitados) {
+  if (!require(p, character.only = TRUE)) {
+    install.packages(p)
+  }
+  library(p, character.only = TRUE)
+}
+
 
 mpg #carregamento de dados
 view(mpg)
