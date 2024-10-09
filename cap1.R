@@ -4,7 +4,7 @@ library(tidyverse)
 mpg #carregamento de dados
 view(mpg)
 
-#criando um ggplot
+#criando um ggplot....
 
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy))
 
