@@ -1,7 +1,8 @@
 #Verifica Pacotes
 pack = c("tidyverse", 
          "ggstance", 
-         "lvplot")
+         "lvplot",
+         "ggbeeswarm")
 
 for(p in pack){
   if(!require(
@@ -11,7 +12,9 @@ for(p in pack){
   library(p,character.only = TRUE)
 }
 
-ggplot(data = diamonds) +
+ggplot(
+  data = diamonds
+  ) +
   geom_bar(
     mapping = aes(
       x = cut
@@ -37,7 +40,11 @@ diamonds %>%
 smaller <- diamonds %>% 
   filter(carat <3)
 
-ggplot(data = smaller, mapping =  aes(x = carat)) +
+ggplot(
+  data = smaller, 
+  mapping =  aes(
+    x = carat)
+  ) +
   geom_histogram(binwidth = 0.1)
 
 
@@ -298,4 +305,123 @@ ggplot(
 
 #cada caixa é um percentil, como saber o valor dela?
 
+#Exer 5
+#comparar geom_violin() com um geom_histogram facetado ou geom_freqpoly colorido.
 
+#a)freqpoly
+ggplot(
+  data = diamonds,
+  mapping = aes(
+    x = price,
+    y = ..density..
+  )
+) +
+  geom_freqpoly(
+    mapping = aes(
+      color = cut
+    ), bindwidth = 500
+  )
+
+#b) geom_histogram
+
+ggplot(
+  data = diamonds,
+  mapping = aes(
+    x = price
+  )
+) + 
+  geom_histogram() +
+  facet_wrap(
+    ~cut, ncol = 1,
+    scales = "free_y"
+  )
+
+#c)geom_violin
+
+ggplot(
+  data = diamonds,
+  mapping = aes(
+    x = cut, y = price
+  )
+) + 
+  geom_violin() +
+  coord_flip()
+
+
+#exer 6
+#fazendo por dois métodos.
+#geom_quasirandom() e #geom_beeswarm()
+
+ggplot(
+  data = mpg
+) +
+  geom_quasirandom(
+    mapping = aes(
+      x = reorder(
+        class, hwy, FUN = median
+      ),
+      y = hwy
+    )
+  )
+
+ggplot(
+  data = mpg
+) +
+  geom_quasirandom(
+    mapping = aes(
+      x = reorder(
+        class, hwy, FUN = median
+      ),
+      y = hwy
+    ),
+    method = "tukey"
+  )
+
+ggplot(
+  data = mpg
+) +
+  geom_quasirandom(
+    mapping = aes(
+      x = reorder(
+        class, hwy, FUN = median
+      ),
+      y = hwy
+    ),
+    method = "tukeyDense"
+  )
+
+ggplot(
+  data = mpg
+) +
+  geom_quasirandom(
+    mapping = aes(
+      x = reorder(
+        class, hwy, FUN = median
+      ),
+      y = hwy
+    ),
+    method = "frowney"
+  )
+
+ggplot(
+  data = mpg
+) +
+  geom_quasirandom(
+    mapping = aes(
+      x = reorder(
+        class, hwy, FUN = median
+      ),
+      y = hwy
+    ),
+    method = "smiley"
+  )
+
+ggplot(
+  data = mpg
+) +
+  geom_beeswarm(
+    mapping = aes(
+      x = reorder(class, hwy, FUN= median),
+      y = hwy
+    )
+  )
