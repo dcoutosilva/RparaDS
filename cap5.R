@@ -425,3 +425,8 @@ ggplot(
       y = hwy
     )
   )
+
+
+#Duas variáveis Categóricas
+
+#covariação entre variáveis
