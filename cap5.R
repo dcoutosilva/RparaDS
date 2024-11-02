@@ -348,7 +348,7 @@ ggplot(
   coord_flip()
 
 
-#exer 6
+#exer 6.
 #fazendo por dois métodos.
 #geom_quasirandom() e #geom_beeswarm()
 
