@@ -4,7 +4,6 @@ pack = c("tidyverse",
          "lvplot",
          "ggbeeswarm")
 
-
 for(p in pack){
   if(!require(
     p, character.only = TRUE
@@ -49,7 +48,9 @@ ggplot(
   geom_histogram(binwidth = 0.1)
 
 
-ggplot(data = smaller, mapping =  aes(x = carat, color = cut)) +
+ggplot(data = smaller, 
+       mapping =  aes(
+         x = carat, color = cut)) +
   geom_freqpoly(binwidth = 0.1)
 
 #valores típicos
@@ -431,3 +432,10 @@ ggplot(
 #Duas variáveis Categóricas
 
 #covariação entre variáveis
+
+ggplot(data = diamonds) +
+  geom_count(mapping = aes(
+    x = cut, y = color
+  ))
+diamonds %>% 
+  count(color, cut)
